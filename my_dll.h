@@ -47,7 +47,14 @@ dll_t *create_dll()
     dll_t *myDLL = NULL;
 
     // TODO: Implement me!!
-
+    dll_t* dl = (dll_t*)malloc(sizeof(dll_t));
+    if (dl == NULL) {
+        return NULL;
+    }
+    dl->count = 0;
+    dl->head = NULL;
+    dl->tail = NULL;
+    myDLL = dl;
     return myDLL;
 }
 
@@ -59,7 +66,13 @@ dll_t *create_dll()
 int dll_empty(dll_t *l)
 {
     // TODO: Implement me!!
-
+    if (l != NULL) {
+        if (l->count == 0) {
+            return 1;
+        }else {
+            return 0;
+        }
+    }
     return -1;
 }
 
@@ -71,8 +84,33 @@ int dll_empty(dll_t *l)
 int dll_push_front(dll_t *l, int item)
 {
     // TODO: Implement me!!
+    if (l == NULL) {
+        return -1;
+    }
+    node_t* mynode = (node_t*)malloc(sizeof(node_t));
+    if (dll_empty(l) == 1) {
+ 
+        mynode->data = item;
+        mynode->previous = NULL;
+        mynode->next = NULL;
 
-    return -1;
+        l->head = mynode;
+        l->tail = mynode;
+
+        l->count ++;
+        return 1;
+    } else {
+        node_t* p = l->head;
+  
+        mynode->data = item;
+        mynode->previous = NULL;
+        mynode->next = p;
+        l->head = mynode;
+
+        l->count ++;
+        return 1;
+    }
+    return 0;
 }
 
 // push a new item to the end of the DLL (after the last node in the list).
@@ -83,8 +121,35 @@ int dll_push_front(dll_t *l, int item)
 int dll_push_back(dll_t *l, int item)
 {
     // TODO: Implement me!!
+    if (l == NULL) {
+        return -1;
+    }
+    node_t* mynode = (node_t*)malloc(sizeof(node_t));
+    if (dll_empty(l) == 1) {
+        
+        mynode->data = item;
+        mynode->previous = NULL;
+        mynode->next = NULL;
 
-    return -1;
+        l->head = mynode;
+        l->tail = mynode;
+
+        l->count ++;
+        return 1;
+    } else {
+        node_t* p = l->head;
+        while (p->next != NULL){
+            p = p->next;
+        }
+        mynode->data = item;
+        mynode->previous = p;
+        mynode->next = NULL;
+        l->tail = mynode;
+
+        l->count ++;
+        return 1;
+    }
+    return 0;
 }
 
 // Returns the first item in the DLL and also removes it from the list.
@@ -93,9 +158,18 @@ int dll_push_back(dll_t *l, int item)
 // Assume no negative numbers in the list or the number zero.
 int dll_pop_front(dll_t *t)
 {
-    // TODO: Implement me!!
-
-    return -1; // Note: This line is a 'filler' so the code compiles.
+    if (t == NULL) {
+        return -1;
+    }
+    if (dll_empty(t) == 1) {
+        return 0;
+    } 
+    node_t* p = t->head;
+    t->head = p->next;
+    p->previous = NULL;
+    t->count--;
+    free(p);
+    return p->data;
 }
 
 // Returns the last item in the DLL, and also removes it from the list.
@@ -105,8 +179,18 @@ int dll_pop_front(dll_t *t)
 int dll_pop_back(dll_t *t)
 {
     // TODO: Implement me!!
-
-    return -1; // Note: This line is a 'filler' so the code compiles.
+    if (t == NULL) {
+        return -1;
+    }
+    if (t->count == 0) {
+        return 0;
+    }
+    node_t* p = t->tail;
+    t->tail = p->previous;
+    p->next = NULL;
+    t->count--;
+    free(p);
+    return p->data;
 }
 
 // Inserts a new node before the node at the specified position.
@@ -120,7 +204,9 @@ int dll_pop_back(dll_t *t)
 int dll_insert(dll_t *l, int pos, int item)
 {
     // TODO: Implement me!!
-
+    if (l == NULL) {
+        return -1;
+    }
     return -1; // Note: This line is a 'filler' so the code compiles.
 }
 
@@ -148,7 +234,12 @@ int dll_get(dll_t *l, int pos)
 int dll_remove(dll_t *l, int pos)
 {
     // TODO: Implement me!!
-
+    if (l == NULL) {
+        return -1;
+    }
+    if (dll_empty(l) == 1) {
+        return 0;
+    }
     return -1; // Note: This line is a 'filler' so the code compiles.
 }
 
@@ -158,7 +249,9 @@ int dll_remove(dll_t *l, int pos)
 int dll_size(dll_t *t)
 {
     // TODO: Implement me!!
-
+    if (t != NULL) {
+        return t->count;
+    }
     return -1; // Note: This line is a 'filler' so the code compiles.
 }
 
@@ -168,6 +261,19 @@ int dll_size(dll_t *t)
 void free_dll(dll_t *t)
 {
     // TODO: Implement me!!
+    if (t == NULL) {
+        return;
+    } 
+
+    if (t->head != NULL) {
+        node_t* p = t->head;
+        node_t* tmp = p;
+        while (p->next != NULL) {
+            p = p->next;
+            free(tmp);
+        }
+    } 
+    free(t);
 }
 
 #endif
