@@ -116,11 +116,11 @@ int unitTest5(int status)
 // UNCOMMENT Tests as you are ready to use them
 // Add your own tests!
 int (*unitTests[])(int) = {
-   // unitTest1,
-   // unitTest2,
-   // unitTest3,
-   // unitTest4,
-   // unitTest5,
+   unitTest1,
+   unitTest2,
+   unitTest3,
+   unitTest4,
+   unitTest5,
     NULL};
 
 // ====================================================
